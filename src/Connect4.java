@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Connect4GUI extends JFrame {
+public class Connect4 extends JFrame {
     private static final int ROWS = 6;
     private static final int COLS = 7;
     private JButton[][] buttons;
 
-    public Connect4GUI() {
+    public Connect4() {
         setTitle("Connect 4");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(ROWS + 1, COLS));
@@ -34,7 +34,8 @@ public class Connect4GUI extends JFrame {
         });
         add(resetButton);
 
-        pack();
+        setSize(500,500);
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -73,7 +74,5 @@ public class Connect4GUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Connect4GUI());
-    }
+
 }
