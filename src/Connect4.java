@@ -9,6 +9,7 @@ public class Connect4 extends JFrame {
     private static final int COLS = 7;
     private JButton[][] buttons;
     JLabel winner = new JLabel();
+    private static int playerint =1;
 
 
 
@@ -80,7 +81,7 @@ public class Connect4 extends JFrame {
                 buttons[row][col].setEnabled(false);
                 if (GameManager.isGameOver(gameBoard,1)){
                     System.out.println("GAME OVER");
-                    if (col==0){
+                    if (playerint ==1 ){
                         winner.setText("Blue Wins");
                         winner.setForeground(Color.BLUE);
                     }
@@ -88,7 +89,7 @@ public class Connect4 extends JFrame {
                         winner.setText("Red Wins");
                         winner.setForeground(Color.RED);
                     }
-
+                    JOptionPane.showMessageDialog(null, winner);
                 }
                 break;
             }
