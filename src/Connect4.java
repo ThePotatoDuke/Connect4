@@ -4,14 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Connect4 extends JFrame {
+    public static int[][] gameBoard;
     private static final int ROWS = 6;
     private static final int COLS = 7;
     private JButton[][] buttons;
+    JLabel winner = new JLabel();
+
+
 
     public Connect4() {
+        gameBoard = new int[ROWS][COLS];
         setTitle("Connect 4");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(ROWS + 1, COLS));
+        setLayout(new GridLayout(ROWS+1, COLS));
+
 
         buttons = new JButton[ROWS][COLS];
 
@@ -22,6 +28,7 @@ public class Connect4 extends JFrame {
                 buttons[row][col].setEnabled(true);
                 buttons[row][col].addActionListener(new ButtonClickListener(col));
                 add(buttons[row][col]);
+
             }
         }
 
@@ -33,11 +40,12 @@ public class Connect4 extends JFrame {
             }
         });
         add(resetButton);
-
+        add(winner);
         setSize(500,500);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+
     }
 
     private void resetBoard() {
@@ -66,13 +74,25 @@ public class Connect4 extends JFrame {
     private void dropDisc(int col) {
         for (int row = ROWS - 1; row >= 0; row--) {
             if (buttons[row][col].getText().equals("")) {
-                buttons[row][col].setText("X");
+                buttons[row][col].setText("1");
                 buttons[row][col].setBackground(Color.BLUE);
+                gameBoard[row][col] = 1;
                 buttons[row][col].setEnabled(false);
+                if (GameManager.isGameOver(gameBoard,1)){
+                    System.out.println("GAME OVER");
+                    if (col==0){
+                        winner.setText("Blue Wins");
+                        winner.setForeground(Color.BLUE);
+                    }
+                    else {
+                        winner.setText("Red Wins");
+                        winner.setForeground(Color.RED);
+                    }
+
+                }
                 break;
             }
         }
     }
-
 
 }
