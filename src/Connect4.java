@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class Connect4 extends JFrame {
     public static int[][] gameBoard;
@@ -9,8 +10,7 @@ public class Connect4 extends JFrame {
     private static final int COLS = 7;
     private JButton[][] buttons;
     JLabel winner = new JLabel();
-    private static int playerint =1;
-
+    AI ai = new AI();
 
 
     public Connect4() {
@@ -55,6 +55,7 @@ public class Connect4 extends JFrame {
                 buttons[row][col].setText("");
                 buttons[row][col].setBackground(Color.WHITE);
                 buttons[row][col].setEnabled(true);
+                gameBoard = new int[ROWS][COLS];
             }
         }
     }
@@ -68,31 +69,47 @@ public class Connect4 extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            dropDisc(col);
+            if (!GameManager.isGameOver(gameBoard,-1) && !GameManager.isGameOver(gameBoard,1)){
+                dropDisc(col,1);
+            }
+            if (!GameManager.isGameOver(gameBoard,-1) && !GameManager.isGameOver(gameBoard,1)){
+                dropDisc(ai.pickBestMove(-1),-1);
+            }
+            if (GameManager.isGameOver(gameBoard,-1) || GameManager.isGameOver(gameBoard,1)){
+                resetBoard();
+            }
         }
     }
 
-    private void dropDisc(int col) {
+    private void dropDisc(int col, int piece) {
         for (int row = ROWS - 1; row >= 0; row--) {
-            if (buttons[row][col].getText().equals("")) {
-                buttons[row][col].setText("1");
-                buttons[row][col].setBackground(Color.BLUE);
-                gameBoard[row][col] = 1;
-                buttons[row][col].setEnabled(false);
-                if (GameManager.isGameOver(gameBoard,1)){
-                    System.out.println("GAME OVER");
-                    if (playerint ==1 ){
-                        winner.setText("Blue Wins");
-                        winner.setForeground(Color.BLUE);
-                    }
-                    else {
-                        winner.setText("Red Wins");
-                        winner.setForeground(Color.RED);
-                    }
-                    JOptionPane.showMessageDialog(null, winner);
+            if (gameBoard[row][col]==0) {
+                buttons[row][col].setText(Integer.toString(piece));
+                gameBoard[row][col] = piece;
+                if (piece == 1){
+                    buttons[row][col].setBackground(Color.BLUE);
+
                 }
+                else if(piece==-1){
+                    buttons[row][col].setBackground(Color.RED);
+
+                }
+                buttons[row][col].setEnabled(false);
                 break;
             }
+        }
+        if (GameManager.isGameOver(gameBoard,piece)){
+            System.out.println("GAME OVER");
+            if (piece == 1){
+                winner.setText("Blue Wins");
+                winner.setForeground(Color.BLUE);
+            }
+            else {
+                winner.setText("Red Wins");
+                winner.setForeground(Color.RED);
+            }
+            JOptionPane.showMessageDialog(null, winner);
+
         }
     }
 

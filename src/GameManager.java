@@ -13,7 +13,7 @@ public class GameManager {
     private static boolean checkVertical(int[][] matrix, int color) {
         for (int col = 0; col < matrix[0].length; col++) {
             for (int row = 0; row < matrix.length - 3; row++) {
-                if (matrix[row][col] == color && matrix[row + 1][col] == color && matrix[row + 1][col] == color && matrix[row + 3][col] == color) {
+                if (matrix[row][col] == color && matrix[row + 1][col] == color && matrix[row + 2][col] == color && matrix[row + 3][col] == color) {
                     return true;
                 }
             }
