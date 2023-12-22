@@ -19,8 +19,11 @@ public class AI {
         }
         return bestCol;
     }
+  
     private int scorePosition(int piece, int[][] boardCopy){
         int score = 0;
+       
+        //horizontal
         for (int rowctr = 0; rowctr < boardCopy.length; rowctr++){
             int[] rowArray = boardCopy[rowctr];
             if (Arrays.stream(rowArray).allMatch(value -> value==0)){
@@ -36,6 +39,8 @@ public class AI {
 
             }
         }
+
+        //vertical
         for (int colctr = 0; colctr < boardCopy[0].length; colctr++){
             int[] colArray = new int[boardCopy.length];
             for (int i = 0; i < boardCopy.length; i++) {
@@ -54,6 +59,50 @@ public class AI {
 
             }
         }
+
+        //positive slope diagnols
+       
+        for (int r = 0; r < rowCount - windowLength + 1; r++) {
+            for (int c = 0; c < columnCount - windowLength + 1; c++) {
+                int[] window = new int[windowLength];
+                
+                for (int i = 0; i < windowLength; i++) {
+                    window[i] = board[r + i][c + i];
+                }
+                
+                if (countOccurrences(window, piece) == 4) {
+                    score += 10;
+                } 
+                
+                else if (ountOccurrences(window, piece) == 3 && countOccurrences(window, 0) == 1) {
+                    score += 100;
+                }
+            }
+        }
+        
+    
+
+        //negative slope
+
+         for (int r = 0; r < rowCount - windowLength + 1; r++) {
+            for (int c = 0; c < columnCount - windowLength + 1; c++) {
+                int[] window = new int[windowLength];
+                
+                for (int i = 0; i < windowLength; i++) {
+                    window[i] = board[r + 3 -i][c + i];
+                }
+                
+                if (countOccurrences(window, piece) == 4) {
+                    score += 10;
+                } 
+                
+                else if (countOccurrences(window, piece) == 3 && countOccurrences(window, 0) == 1) {
+                    score += 100;
+                }
+            }
+        }
+        
+        
         return score;
     }
     private static int countOccurrences(int[] array, int number) {
