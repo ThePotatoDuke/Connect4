@@ -104,7 +104,7 @@ public class AI {
         if (countOccurrences(window, piece) == 4) {
             score += 100;
         } else if (countOccurrences(window, piece) == 3 && countOccurrences(window, 0) == 1) {
-            score += 20;
+            score += 10;
         } else if (countOccurrences(window, piece) == 2 && countOccurrences(window, 0) == 2) {
             score += 5;
         } else if (countOccurrences(window, opponentPiece) == 3 && countOccurrences(window, 0) == 1) {
@@ -190,7 +190,7 @@ public class AI {
                     column = col;
                 }
             }
-            result.put("score", newScore);
+            result.put("score", value);
             result.put("column", column);
 
             return result;
@@ -208,7 +208,7 @@ public class AI {
                     column = col;
                 }
             }
-            result.put("score", newScore);
+            result.put("score", value);
             result.put("column", column);
             return result;
         }
