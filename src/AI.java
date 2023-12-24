@@ -33,7 +33,7 @@ public class AI {
         for (int i = 0; i < boardCopy.length; i++) {
             centerCol[i] = boardCopy[i][boardCopy[0].length / 2];
         }
-        score += 6 * countOccurrences(centerCol, piece);
+        score += 8 * countOccurrences(centerCol, piece);
 
         //horizontal
         for (int rowctr = 0; rowctr < rowCount; rowctr++) {
@@ -41,26 +41,24 @@ public class AI {
             if (Arrays.stream(rowArray).allMatch(value -> value == 0)) {
                 continue;
             }
-            for (int colCtr = 0; colCtr < columnCount - 3; colCtr++) {
+            for (int colCtr = 0; colCtr <= columnCount - 4; colCtr++) {
                 int[] window = Arrays.copyOfRange(rowArray, colCtr, colCtr + 4);
                 score += evaluateWindow(window, piece);
-
             }
         }
 
         //vertical
         for (int colctr = 0; colctr < columnCount; colctr++) {
-            int[] colArray = new int[rowCount];
+            int[] colArray = new int[columnCount];
             for (int i = 0; i < rowCount; i++) {
                 colArray[i] = boardCopy[i][colctr];
             }
             if (Arrays.stream(colArray).allMatch(value -> value == 0)) {
                 continue;
             }
-            for (int colCtr = 0; colCtr < rowCount - 3; colCtr++) {
-                int[] window = Arrays.copyOfRange(colArray, colCtr, colCtr + 4);
+            for (int rowCtr = 0; rowCtr <= rowCount - 4; rowCtr++) {
+                int[] window = Arrays.copyOfRange(colArray, rowCtr, rowCtr + 4);
                 score += evaluateWindow(window, piece);
-
             }
         }
 
@@ -93,7 +91,11 @@ public class AI {
             }
         }
 
-
+        if(score >= 1000){
+            return  1000;
+        } else if (score<=-500) {
+            return -500;
+        }
         return score;
     }
 
@@ -102,13 +104,13 @@ public class AI {
         int opponentPiece = -piece;
 
         if (countOccurrences(window, piece) == 4) {
-            score += 100;
+            return 1000;
         } else if (countOccurrences(window, piece) == 3 && countOccurrences(window, 0) == 1) {
             score += 10;
         } else if (countOccurrences(window, piece) == 2 && countOccurrences(window, 0) == 2) {
             score += 5;
         } else if (countOccurrences(window, opponentPiece) == 3 && countOccurrences(window, 0) == 1) {
-            score -= 8;
+            return -500;
         }
         return score;
     }
@@ -143,7 +145,7 @@ public class AI {
         }
     }
 
-    private static int[][] cloneArray(int[][] original) {
+    public static int[][] cloneArray(int[][] original) {
         int[][] copy = new int[original.length][];
         for (int i = 0; i < original.length; i++) {
             copy[i] = Arrays.copyOf(original[i], original[i].length);

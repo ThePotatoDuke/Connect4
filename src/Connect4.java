@@ -74,6 +74,7 @@ public class Connect4 extends JFrame {
             }
             if (!GameManager.isGameOver(gameBoard,-1) && !GameManager.isGameOver(gameBoard,1)){
                 //dropDisc(ai.pickBestMove(-1),-1);
+
                 dropDisc(ai.minimax(gameBoard,6,true).get("column"),-1);
             }
             if (GameManager.isGameOver(gameBoard,-1) || GameManager.isGameOver(gameBoard,1)){
