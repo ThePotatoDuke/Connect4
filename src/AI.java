@@ -33,7 +33,7 @@ public class AI {
         for (int i = 0; i < boardCopy.length; i++) {
             centerCol[i] = boardCopy[i][boardCopy[0].length / 2];
         }
-        score += 8 * countOccurrences(centerCol, piece);
+        score += 5 * countOccurrences(centerCol, piece);
 
         //horizontal
         for (int rowctr = 0; rowctr < rowCount; rowctr++) {
@@ -93,8 +93,8 @@ public class AI {
 
         if(score >= 1000){
             return  1000;
-        } else if (score<=-500) {
-            return -500;
+        } else if (score<=-30) {
+            return -30;
         }
         return score;
     }
@@ -106,11 +106,11 @@ public class AI {
         if (countOccurrences(window, piece) == 4) {
             return 1000;
         } else if (countOccurrences(window, piece) == 3 && countOccurrences(window, 0) == 1) {
-            score += 10;
-        } else if (countOccurrences(window, piece) == 2 && countOccurrences(window, 0) == 2) {
             score += 5;
+        } else if (countOccurrences(window, piece) == 2 && countOccurrences(window, 0) == 2) {
+            score += 2;
         } else if (countOccurrences(window, opponentPiece) == 3 && countOccurrences(window, 0) == 1) {
-            return -500;
+            return -30;
         }
         return score;
     }
