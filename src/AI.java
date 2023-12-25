@@ -5,21 +5,6 @@ import java.util.Random;
 
 public class AI {
 
-    public int pickBestMove(int piece) {
-        Random random = new Random();
-        int bestCol = random.nextInt(Connect4.gameBoard[0].length);
-        int bestScore = Integer.MIN_VALUE;
-        for (int colNum : validCols(Connect4.gameBoard)) {
-            int[][] boardCopy = cloneArray(Connect4.gameBoard);
-            dropDiscToCopy(colNum, piece, boardCopy);
-            int score = scorePosition(piece, boardCopy);
-            if (score > bestScore) {
-                bestScore = score;
-                bestCol = colNum;
-            }
-        }
-        return bestCol;
-    }
 
     private int scorePosition(int piece, int[][] boardCopy) {
         int rowCount = boardCopy.length;
@@ -164,10 +149,10 @@ public class AI {
 
         if (isTerminal) {
             if (GameManager.isGameOver(board, -1)) {
-                result.put("score", Integer.MAX_VALUE);
+                result.put("score", Integer.MAX_VALUE - (10-depth)*100);
                 return result;
             } else if (GameManager.isGameOver(board, 1)) {
-                result.put("score", Integer.MIN_VALUE);
+                result.put("score", Integer.MIN_VALUE + (10-depth)*100);
                 return result;
             } else {
                 result.put("score", 0);
